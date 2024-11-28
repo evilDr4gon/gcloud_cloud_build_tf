@@ -65,15 +65,17 @@ Este es un ejemplo de cómo usar el módulo para crear una cuenta de servicio pe
 1. Ejemplo con un solo trigger:
 
 ```h
+module "cloud-build" {
+  source  = "evilDr4gon/cloud-build/google"
+  version = "1.0.0"
 
-module "cloud_build" {
-  source      = "github.com/mi_usuario/mi_repo/modules/cloud_build"
 
   gcp_cloud_build_config = {
-    environment = "qa"
-    project_id  = "mi-proyecto-id"
-    cloud_build_custom_sa_name = "cloud-build-sa"
-    cloud_build_custom_sa_roles = ["roles/cloudbuild.builds.editor", "roles/storage.admin"]
+    environment                       = "qa"
+    project_id                        = "siman-pos-project-tst"
+    cloud_build_custom_sa_name        = "cloud-build-sa"
+    cloud_build_custom_sa_description = "temporal"
+    cloud_build_custom_sa_roles       = ["roles/cloudbuild.builds.editor", "roles/storage.admin"]
   }
 
   gcp_cloud_build_triggers = {
@@ -83,7 +85,7 @@ module "cloud_build" {
         repo_name   = "mi-repo"
         branch_name = "main"
         filename    = "cloudbuild.yaml"
-        variables   = {
+        variables = {
           "var1" = "value1"
         }
       }
@@ -103,42 +105,48 @@ Este ejemplo crea la cuenta de servicio para Cloud Build, asigna roles personali
 2. Ejemplo con varios triggers:
 
 ```h
-module "cloud_build" {
-  source = "github.com/mi_usuario/mi_repo/modules/cloud_build"
+module "cloud-build" {
+  source  = "evilDr4gon/cloud-build/google"
+  version = "1.0.0"
 
   gcp_cloud_build_config = {
-    environment = "qa"
-    project_id  = "mi-proyecto-id"
-    cloud_build_custom_sa_name  = "cloud-build-sa"
-    cloud_build_custom_sa_roles = ["roles/cloudbuild.builds.editor", "roles/storage.admin"]
+    environment                       = "qa"
+    project_id                        = "siman-pos-project-tst"
+    cloud_build_custom_sa_name        = "cloud-build-sa"
+    cloud_build_custom_sa_description = "temporal"
+    cloud_build_custom_sa_roles       = ["roles/cloudbuild.builds.editor", "roles/storage.admin"]
   }
 
   gcp_cloud_build_triggers = {
     triggers = [
       {
-        name        = "example-trigger-1"
+        name        = "example-trigger"
         repo_name   = "mi-repo"
         branch_name = "main"
-        filename    = "cloudbuild-1.yaml"
-        variables   = {
+        filename    = "cloudbuild.yaml"
+        variables = {
           "var1" = "value1"
         }
       },
       {
-        name        = "example-trigger-2"
-        repo_name   = "mi-repo"
-        branch_name = "develop"
-        filename    = "cloudbuild-2.yaml"
-        variables   = {
-          "var2" = "value2"
+        name        = "example-trigger2"
+        repo_name   = "mi-repo2"
+        branch_name = "main"
+        filename    = "cloudbuild.yaml"
+        variables = {
+          "var1" = "value1"
         }
-      }
+      },
+      
+      # .... Otros triggers
+
     ]
     vars_globals = {
       "global_var" = "global_value"
     }
   }
 }
+
 ```
 Este ejemplo crea la cuenta de servicio para Cloud Build, asigna roles personalizados, y configura dos triggers que ejecutan archivos cloudbuild.yaml desde un repositorio. Uno de los triggers se ejecuta en el branch main y el otro en el branch develop del mismo repositorio.
 
