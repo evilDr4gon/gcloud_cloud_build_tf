@@ -138,7 +138,7 @@ module "cloud-build" {
         }
       },
       
-      # .... Otros triggers
+      # .... Otros triggers 
 
     ]
     vars_globals = {
@@ -148,6 +148,7 @@ module "cloud-build" {
 }
 
 ```
+
 Este ejemplo crea la cuenta de servicio para Cloud Build, asigna roles personalizados, y configura dos triggers que ejecutan archivos cloudbuild.yaml desde un repositorio. Uno de los triggers se ejecuta en el branch main y el otro en el branch develop del mismo repositorio.
 
 ## Autor
